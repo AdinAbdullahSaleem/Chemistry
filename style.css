@@ -280,43 +280,103 @@ button[disabled]:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px 0;
     flex-wrap: wrap;
-    gap: 10px; /* Add consistent spacing between items */
+    margin: 15px 0;
+    width: 100%;
 }
 
-.controls button {
-    margin: 5px; /* Reduce margin to prevent overflow */
-    min-width: 90px; /* Ensure buttons have consistent width */
-}
-
-#flashcard-counter {
-    margin: 5px 10px;
-    white-space: nowrap; /* Prevent counter from breaking */
-}
-
-/* Add a separate container for the flip card button */
-.flip-controls {
+.nav-buttons {
     display: flex;
+    align-items: center;
     justify-content: center;
     width: 100%;
-    margin: 10px 0;
-}
-
-/* Back to topics button styling for better spacing */
-.back-controls {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.controls button {
-    margin: 0 10px;
+    margin-bottom: 15px;
 }
 
 #flashcard-counter {
     margin: 0 15px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+}
+
+.flip-controls {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 5px 0 15px 0;
+}
+
+.back-controls {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* Make all control buttons consistent size to improve mobile display */
+.controls button,
+.flip-controls button,
+.back-controls button {
+    min-width: 120px;
+    margin: 5px 8px;
+}
+
+/* Additional fix for mobile display */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .flashcard {
+        height: 250px;
+        margin: 20px auto;
+    }
+    
+    /* Ensure all controls have consistent appearance */
+    .nav-buttons,
+    .flip-controls,
+    .back-controls {
+        width: 100%;
+    }
+    
+    /* Fix for buttons that might be too close on very small screens */
+    .nav-buttons {
+        flex-wrap: wrap;
+    }
+    
+    /* Counter might need adjustment on very small screens */
+    #flashcard-counter {
+        margin: 8px 0;
+        width: 100%;
+        order: -1; /* Place counter at the top */
+    }
+    
+    /* Ensure buttons maintain good tap target size on mobile */
+    .controls button,
+    .flip-controls button,
+    .back-controls button {
+        padding: 12px 20px;
+        margin: 6px;
+    }
+}
+
+/* Extra small screens require even more aggressive stacking */
+@media (max-width: 350px) {
+    .nav-buttons {
+        flex-direction: column;
+    }
+    
+    .nav-buttons button {
+        width: 100%;
+        margin: 5px 0;
+    }
+    
+    .flip-controls button,
+    .back-controls button {
+        width: 100%;
+        margin: 5px 0;
+    }
 }
 
 /* Quiz Interface */
@@ -501,5 +561,61 @@ button[disabled]:hover {
 
     #mode-selection .buttons {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .flashcard {
+        height: 250px;
+        margin: 20px auto;
+    }
+    
+    /* Ensure all controls have consistent appearance */
+    .nav-buttons,
+    .flip-controls,
+    .back-controls {
+        width: 100%;
+    }
+    
+    /* Fix for buttons that might be too close on very small screens */
+    .nav-buttons {
+        flex-wrap: wrap;
+    }
+    
+    /* Counter might need adjustment on very small screens */
+    #flashcard-counter {
+        margin: 8px 0;
+        width: 100%;
+        order: -1; /* Place counter at the top */
+    }
+    
+    /* Ensure buttons maintain good tap target size on mobile */
+    .controls button,
+    .flip-controls button,
+    .back-controls button {
+        padding: 12px 20px;
+        margin: 6px;
+    }
+}
+
+/* Extra small screens require even more aggressive stacking */
+@media (max-width: 350px) {
+    .nav-buttons {
+        flex-direction: column;
+    }
+    
+    .nav-buttons button {
+        width: 100%;
+        margin: 5px 0;
+    }
+    
+    .flip-controls button,
+    .back-controls button {
+        width: 100%;
+        margin: 5px 0;
     }
 }
