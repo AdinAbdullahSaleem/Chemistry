@@ -282,6 +282,33 @@ button[disabled]:hover {
     align-items: center;
     margin: 20px 0;
     flex-wrap: wrap;
+    gap: 10px; /* Add consistent spacing between items */
+}
+
+.controls button {
+    margin: 5px; /* Reduce margin to prevent overflow */
+    min-width: 90px; /* Ensure buttons have consistent width */
+}
+
+#flashcard-counter {
+    margin: 5px 10px;
+    white-space: nowrap; /* Prevent counter from breaking */
+}
+
+/* Add a separate container for the flip card button */
+.flip-controls {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 10px 0;
+}
+
+/* Back to topics button styling for better spacing */
+.back-controls {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .controls button {
@@ -442,8 +469,32 @@ button[disabled]:hover {
 
     .flashcard {
         height: 250px;
+        margin: 20px auto;
     }
 
+    .controls {
+        flex-direction: column; /* Stack controls vertically on mobile */
+        align-items: center;
+        margin: 15px 0;
+    }
+    
+    /* On mobile, let Previous/Next buttons share a row */
+    .nav-buttons {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .controls button {
+        width: 120px; /* Consistent button width on mobile */
+        margin: 5px 0;
+    }
+    
+    #flashcard-counter {
+        margin: 10px 0;
+    }
+    
     .options {
         grid-template-columns: 1fr;
     }
