@@ -343,36 +343,82 @@ document.addEventListener('DOMContentLoaded', function() {
         quizResults.style.display = 'block';
         
         // Calculate score
-        let correctAnswers = 0;
-        quizQuestions.forEach((question, index) => {
-            if (selectedAnswers[index] === question.correctIndex) {
-                correctAnswers++;
-            }
-        });
+        const correctAnswers = selectedAnswers.filter((answer, index) => 
+            answer === quizQuestions[index].correctIndex
+        ).length;
         
-        const scorePercentage = Math.round((correctAnswers / quizQuestions.length) * 100);
-        scoreDisplay.textContent = `Your score: ${correctAnswers} out of ${quizQuestions.length} (${scorePercentage}%)`;
+        const totalQuestions = quizQuestions.length;
+        const percentage = Math.round((correctAnswers / totalQuestions) * 100);
         
-        // Show breakdown
-        resultsBreakdown.innerHTML = '';
+        // Create score display with percentage and progress bar
+        let scoreHTML = `
+            <span class="score-percentage">${percentage}%</span>
+            <p>You got ${correctAnswers} out of ${totalQuestions} questions correct</p>
+            <div class="score-bar-container">
+                <div class="score-bar" style="width: ${percentage}%"></div>
+            </div>
+        `;
+        
+        // Add encouraging message based on score
+        let messageClass = '';
+        let message = '';
+        
+        if (percentage >= 90) {
+            messageClass = 'excellent';
+            message = 'Excellent! You have mastered this topic!';
+        } else if (percentage >= 70) {
+            messageClass = 'good';
+            message = 'Good job! You have a solid understanding of this topic.';
+        } else if (percentage >= 50) {
+            messageClass = 'average';
+            message = 'Not bad! Keep studying to improve your knowledge.';
+        } else {
+            messageClass = 'needs-improvement';
+            message = 'You might need to review this topic more carefully.';
+        }
+        
+        scoreHTML += `<div class="score-message ${messageClass}">${message}</div>`;
+        scoreDisplay.innerHTML = scoreHTML;
+        
+        // Create detailed breakdown of answers
+        let breakdownHTML = '';
+        
         quizQuestions.forEach((question, index) => {
-            const resultItem = document.createElement('div');
-            resultItem.className = 'result-item';
+            const userAnswer = selectedAnswers[index];
+            const correctIndex = question.correctIndex;
             
-            if (selectedAnswers[index] === question.correctIndex) {
-                resultItem.classList.add('correct');
-            } else {
-                resultItem.classList.add('incorrect');
-            }
-            
-            resultItem.innerHTML = `
-                <p><strong>Question:</strong> ${question.question}</p>
-                <p><strong>Your answer:</strong> ${question.options[selectedAnswers[index]]}</p>
-                <p><strong>Correct answer:</strong> ${question.options[question.correctIndex]}</p>
+            breakdownHTML += `
+                <div class="result-item">
+                    <div class="result-question">Question ${index + 1}: ${question.question}</div>
+                    <div class="result-options">
             `;
             
-            resultsBreakdown.appendChild(resultItem);
+            question.options.forEach((option, optIndex) => {
+                let optionClass = '';
+                
+                if (optIndex === correctIndex) {
+                    optionClass = 'correct';
+                } else if (userAnswer === optIndex && userAnswer !== correctIndex) {
+                    optionClass = 'incorrect';
+                }
+                
+                // Add a special class if this was the user's selected answer
+                const userSelectedClass = userAnswer === optIndex ? 'user-selected' : '';
+                
+                breakdownHTML += `
+                    <div class="result-option ${optionClass} ${userSelectedClass}">
+                        ${option}
+                    </div>
+                `;
+            });
+            
+            breakdownHTML += `
+                    </div>
+                </div>
+            `;
         });
+        
+        resultsBreakdown.innerHTML = breakdownHTML;
     }
     
     function resetQuizState() {
