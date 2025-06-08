@@ -221,6 +221,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Display options
         optionsElement.innerHTML = '';
+        // Add a variable to track if question has been answered
+        let questionAnswered = false;
+        
         currentQuestion.options.forEach((option, index) => {
             const optionElement = document.createElement('div');
             optionElement.className = 'option';
@@ -228,29 +231,33 @@ document.addEventListener('DOMContentLoaded', function() {
             optionElement.dataset.index = index;
             
             optionElement.addEventListener('click', () => {
-                // Remove selection from all options
-                document.querySelectorAll('.option').forEach(opt => {
-                    opt.classList.remove('selected');
-                    opt.classList.remove('correct');
-                    opt.classList.remove('incorrect');
-                });
-                
-                // Add selection to clicked option
-                optionElement.classList.add('selected');
-                
-                // Show immediate feedback
-                if (index === currentQuestion.correctIndex) {
-                    optionElement.classList.add('correct');
-                } else {
-                    optionElement.classList.add('incorrect');
-                    // Show which one was correct
-                    document.querySelectorAll('.option')[currentQuestion.correctIndex].classList.add('correct');
-                }
-                
-                nextQuestionBtn.disabled = false;
-                if (currentQuizIndex === quizQuestions.length - 1) {
-                    nextQuestionBtn.style.display = 'none';
-                    finishQuizBtn.style.display = 'block';
+                // Only allow selection if question hasn't been answered yet
+                if (!questionAnswered) {
+                    // Mark question as answered
+                    questionAnswered = true;
+                    
+                    // Add selection to clicked option
+                    optionElement.classList.add('selected');
+                    
+                    // Show immediate feedback
+                    if (index === currentQuestion.correctIndex) {
+                        optionElement.classList.add('correct');
+                    } else {
+                        optionElement.classList.add('incorrect');
+                        // Show which one was correct
+                        document.querySelectorAll('.option')[currentQuestion.correctIndex].classList.add('correct');
+                    }
+                    
+                    // Make all options unclickable by adding a "disabled" class
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.add('disabled');
+                    });
+                    
+                    nextQuestionBtn.disabled = false;
+                    if (currentQuizIndex === quizQuestions.length - 1) {
+                        nextQuestionBtn.style.display = 'none';
+                        finishQuizBtn.style.display = 'block';
+                    }
                 }
             });
             
