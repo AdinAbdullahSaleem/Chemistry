@@ -298,6 +298,103 @@ button[disabled]:hover {
     min-width: 90px;
 }
 
+/* Fixed flashcard controls and quiz interface styling */
+
+/* Make Back to Topics button more prominent */
+.back-btn, #back-to-topics, #quiz-back-to-topics {
+    background-color: var(--surface-color-light);
+    color: var(--text-color);
+    border: 1px solid var(--primary-light);
+    margin-top: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 140px;
+}
+
+.back-btn:hover, #back-to-topics:hover, #quiz-back-to-topics:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-color);
+}
+
+/* Quiz Interface improvements */
+#quiz-interface {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#quiz-question-container {
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+#question {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+}
+
+.option {
+    padding: 16px 20px;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    border-left: 4px solid transparent;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+.option:hover {
+    background-color: var(--surface-color-light);
+    box-shadow: var(--shadow-md);
+}
+
+.option.selected {
+    border-left: 4px solid var(--primary-color);
+    background-color: rgba(77, 127, 193, 0.15);
+}
+
+.option.correct {
+    background-color: rgba(34, 197, 94, 0.15);
+    border-left: 4px solid var(--correct-color);
+}
+
+.option.incorrect {
+    background-color: rgba(239, 68, 68, 0.15);
+    border-left: 4px solid var(--incorrect-color);
+}
+
+.option.disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#quiz-counter {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
@@ -310,18 +407,22 @@ button[disabled]:hover {
         margin: 20px auto;
     }
     
-    /* Fix for mobile control buttons */
+    /* Improved mobile buttons layout */
     .controls, .flip-controls, .back-controls {
         width: 100%;
         margin: 10px 0;
+        position: relative;
+        left: 0;
+        right: 0;
     }
     
     .nav-buttons {
         width: 100%;
         gap: 8px;
+        justify-content: center;
     }
     
-    /* Ensure all buttons have consistent styling */
+    /* Ensure all buttons have consistent styling and correct placement */
     .controls button, 
     .flip-controls button, 
     .back-controls button {
@@ -330,25 +431,41 @@ button[disabled]:hover {
         padding: 10px 15px;
         margin: 5px;
         font-size: 0.95rem;
+        position: static; /* Prevent absolute positioning issues */
     }
     
-    /* Specific fix for the flip button centering */
-    #flip-button {
-        margin: 0 auto;
+    /* Specific centering fix for all buttons */
+    #flip-button,
+    #back-to-topics,
+    #quiz-back-to-topics {
+        margin: 10px auto;
         display: block;
+        position: static; /* Reset any absolute positioning */
     }
     
-    /* Ensure counter is properly centered */
-    #flashcard-counter {
-        display: inline-block;
-        text-align: center;
-        white-space: nowrap;
+    /* Quiz mobile layout fixes */
+    .quiz-footer {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .quiz-footer button {
+        width: 100%;
+        margin: 5px 0;
+    }
+    
+    #quiz-counter {
+        margin-bottom: 10px;
     }
     
     .options {
         grid-template-columns: 1fr;
     }
-
+    
+    .option {
+        padding: 14px;
+    }
+    
     #mode-selection .buttons {
         flex-direction: column;
     }

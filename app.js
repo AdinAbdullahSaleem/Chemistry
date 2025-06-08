@@ -38,6 +38,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         renderTopics();
         attachEventListeners();
+        
+        // Verify all critical elements are available
+        console.log("Critical elements check:");
+        [
+            {id: 'flip-button', name: 'Flip Card Button'},
+            {id: 'back-to-topics', name: 'Back to Topics Button'},
+            {id: 'next-question', name: 'Next Question Button'},
+            {id: 'quiz-back-to-topics', name: 'Quiz Back Button'}
+        ].forEach(item => {
+            const element = document.getElementById(item.id);
+            console.log(`${item.name} (${item.id}): ${element ? 'Found' : 'MISSING'}`);
+        });
     }
     
     // Render the topics list
@@ -74,80 +86,125 @@ document.addEventListener('DOMContentLoaded', function() {
             modeSelection.style.display = 'block';
         });
         
-        document.querySelectorAll('.topic-card').forEach(card => {
-            card.addEventListener('click', () => {
-                currentTopic = card.dataset.topic;
-                currentTopicData = topics.find(topic => topic.id === currentTopic);
-                
-                if (currentMode === 'flashcard') {
-                    startFlashcardMode();
-                } else if (currentMode === 'quiz') {
-                    startQuizMode();
+        // Add event listeners to topic cards after they are rendered
+        setTimeout(() => {
+            document.querySelectorAll('.topic-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    currentTopic = card.dataset.topic;
+                    currentTopicData = topics.find(topic => topic.id === currentTopic);
+                    
+                    if (currentMode === 'flashcard') {
+                        startFlashcardMode();
+                    } else if (currentMode === 'quiz') {
+                        startQuizMode();
+                    }
+                });
+            });
+        }, 100);
+        
+        // Flashcard navigation - FIXED CORRECT IDs
+        const flipButton = document.getElementById('flip-button');
+        if (flipButton) {
+            flipButton.addEventListener('click', flipFlashcard);
+        } else {
+            console.error('Flip button not found');
+        }
+        
+        const nextFlashcardBtn = document.getElementById('next-flashcard');
+        if (nextFlashcardBtn) {
+            nextFlashcardBtn.addEventListener('click', () => {
+                if (currentFlashcardIndex < currentTopicData.flashcards.length - 1) {
+                    currentFlashcardIndex++;
+                    renderFlashcard();
                 }
             });
-        });
+        }
         
-        // Flashcard navigation
-        document.getElementById('flip-flashcard').addEventListener('click', flipFlashcard);
+        const prevFlashcardBtn = document.getElementById('prev-flashcard');
+        if (prevFlashcardBtn) {
+            prevFlashcardBtn.addEventListener('click', () => {
+                if (currentFlashcardIndex > 0) {
+                    currentFlashcardIndex--;
+                    renderFlashcard();
+                }
+            });
+        }
         
-        document.getElementById('next-flashcard').addEventListener('click', () => {
-            if (currentFlashcardIndex < currentTopicData.flashcards.length - 1) {
-                currentFlashcardIndex++;
-                renderFlashcard();
-            }
-        });
+        if (flashcardElement) {
+            flashcardElement.addEventListener('click', flipFlashcard);
+        }
         
-        document.getElementById('prev-flashcard').addEventListener('click', () => {
-            if (currentFlashcardIndex > 0) {
-                currentFlashcardIndex--;
-                renderFlashcard();
-            }
-        });
+        // Enhanced back button handlers with error checking
+        const backToTopicsBtn = document.getElementById('back-to-topics');
+        const quizBackToTopicsBtn = document.getElementById('quiz-back-to-topics');
         
-        flashcardElement.addEventListener('click', flipFlashcard);
+        if (backToTopicsBtn) {
+            backToTopicsBtn.addEventListener('click', function() {
+                console.log('Flashcard back button clicked'); // Debug log
+                flashcardInterface.style.display = 'none';
+                topicSelection.style.display = 'block';
+                resetFlashcardState();
+            });
+        } else {
+            console.error('Back to topics button not found in flashcard interface');
+        }
         
-        document.getElementById('back-to-topics').addEventListener('click', () => {
-            flashcardInterface.style.display = 'none';
-            topicSelection.style.display = 'block';
-            resetFlashcardState();
-        });
+        if (quizBackToTopicsBtn) {
+            quizBackToTopicsBtn.addEventListener('click', function() {
+                console.log('Quiz back button clicked'); // Debug log
+                quizInterface.style.display = 'none';
+                topicSelection.style.display = 'block';
+                resetQuizState();
+            });
+        } else {
+            console.error('Back to topics button not found in quiz interface');
+        }
         
-        // Quiz navigation
-        nextQuestionBtn.addEventListener('click', () => {
-            saveAnswer();
-            
-            if (currentQuizIndex < quizQuestions.length - 1) {
+        const retakeQuizBtn = document.getElementById('retake-quiz');
+        if (retakeQuizBtn) {
+            retakeQuizBtn.addEventListener('click', () => {
+                quizResults.style.display = 'none';
+                resetQuizState();
+                startQuizMode();
+            });
+        }
+        
+        const backToTopicsFromResultsBtn = document.getElementById('back-to-topics-from-results');
+        if (backToTopicsFromResultsBtn) {
+            backToTopicsFromResultsBtn.addEventListener('click', () => {
+                quizResults.style.display = 'none';
+                topicSelection.style.display = 'block';
+                resetQuizState();
+            });
+        }
+        
+        // Add event listener for next question button - FIXED
+        if (nextQuestionBtn) {
+            nextQuestionBtn.addEventListener('click', () => {
+                console.log('Next question clicked');
+                saveAnswer();
                 currentQuizIndex++;
-                renderQuizQuestion();
-                nextQuestionBtn.disabled = true;
-            } else {
-                nextQuestionBtn.style.display = 'none';
-                finishQuizBtn.style.display = 'block';
-            }
-        });
+                
+                if (currentQuizIndex < quizQuestions.length) {
+                    renderQuizQuestion();
+                    nextQuestionBtn.disabled = true;
+                } else {
+                    showQuizResults();
+                }
+            });
+        } else {
+            console.error('Next question button not found');
+        }
         
-        finishQuizBtn.addEventListener('click', () => {
-            saveAnswer();
-            showQuizResults();
-        });
-        
-        document.getElementById('quiz-back-to-topics').addEventListener('click', () => {
-            quizInterface.style.display = 'none';
-            topicSelection.style.display = 'block';
-            resetQuizState();
-        });
-        
-        document.getElementById('retake-quiz').addEventListener('click', () => {
-            quizResults.style.display = 'none';
-            resetQuizState();
-            startQuizMode();
-        });
-        
-        document.getElementById('back-to-topics-from-results').addEventListener('click', () => {
-            quizResults.style.display = 'none';
-            topicSelection.style.display = 'block';
-            resetQuizState();
-        });
+        // Add event listener for finish quiz button
+        if (finishQuizBtn) {
+            finishQuizBtn.addEventListener('click', () => {
+                saveAnswer();
+                showQuizResults();
+            });
+        } else {
+            console.error('Finish quiz button not found');
+        }
     }
     
     // Flashcard Functions
@@ -163,6 +220,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function renderFlashcard() {
+        if (!currentTopicData || !currentTopicData.flashcards) {
+            console.error('No flashcard data available');
+            return;
+        }
+        
         const flashcard = currentTopicData.flashcards[currentFlashcardIndex];
         flashcardQuestion.textContent = flashcard.front;
         flashcardAnswer.textContent = flashcard.back;
@@ -185,7 +247,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetFlashcardState() {
         currentFlashcardIndex = 0;
         isCardFlipped = false;
-        flashcardElement.classList.remove('flipped');
+        if (flashcardElement) {
+            flashcardElement.classList.remove('flipped');
+        }
         
         // Remove keyboard event listener when exiting flashcard mode
         document.removeEventListener('keydown', handleFlashcardKeydown);
