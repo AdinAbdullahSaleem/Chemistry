@@ -2,6 +2,10 @@
 
 A comprehensive web-based learning platform designed to help students master chemistry concepts through interactive flashcards and quizzes. This application covers the complete 2023-2025 chemistry syllabus, providing an engaging way to learn and test knowledge on key chemistry topics.
 
+## Live Website
+
+**Access the live application here:** [Chemistry Quiz Learning Platform](https://AdinAbdullahSaleem.github.io/Chemistry)
+
 ## Features
 
 - **Topic-based learning**: Content organized into 9 major chemistry topics
@@ -32,14 +36,14 @@ A comprehensive web-based learning platform designed to help students master che
 ## Installation and Setup
 
 1. Clone the repository:
-
-   git clone <https://github.com/AdinAbdullahSaleem/Chemistry>
+git clone <https://github.com/AdinAbdullahSaleem/Chemistry.git>
 
 2. Navigate to the project directory:
-
-   cd Chemistry
+cd Chemistry
 
 3. Open `index.html` in your web browser to start using the application
+
+4. Alternatively, visit the [live website](https://AdinAbdullahSaleem.github.io/Chemistry)
 
 ## Usage
 
