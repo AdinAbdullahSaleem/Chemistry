@@ -276,283 +276,73 @@ button[disabled]:hover {
     border-right: 4px solid var(--secondary-color);
 }
 
-.controls {
+.controls, .flip-controls, .back-controls {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    margin: 15px 0;
     width: 100%;
+    margin: 15px 0;
 }
 
 .nav-buttons {
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 15px;
+    gap: 10px;
 }
 
-#flashcard-counter {
-    margin: 0 15px;
-    display: inline-block;
-    min-width: 60px;
-    text-align: center;
-}
-
-.flip-controls {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 5px 0 15px 0;
-}
-
-.back-controls {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 15px;
-}
-
-/* Make all control buttons consistent size to improve mobile display */
-.controls button,
-.flip-controls button,
+.controls button, 
+.flip-controls button, 
 .back-controls button {
-    min-width: 120px;
-    margin: 5px 8px;
-}
-
-/* Additional fix for mobile display */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    .flashcard {
-        height: 250px;
-        margin: 20px auto;
-    }
-    
-    /* Ensure all controls have consistent appearance */
-    .nav-buttons,
-    .flip-controls,
-    .back-controls {
-        width: 100%;
-    }
-    
-    /* Fix for buttons that might be too close on very small screens */
-    .nav-buttons {
-        flex-wrap: wrap;
-    }
-    
-    /* Counter might need adjustment on very small screens */
-    #flashcard-counter {
-        margin: 8px 0;
-        width: 100%;
-        order: -1; /* Place counter at the top */
-    }
-    
-    /* Ensure buttons maintain good tap target size on mobile */
-    .controls button,
-    .flip-controls button,
-    .back-controls button {
-        padding: 12px 20px;
-        margin: 6px;
-    }
-}
-
-/* Extra small screens require even more aggressive stacking */
-@media (max-width: 350px) {
-    .nav-buttons {
-        flex-direction: column;
-    }
-    
-    .nav-buttons button {
-        width: 100%;
-        margin: 5px 0;
-    }
-    
-    .flip-controls button,
-    .back-controls button {
-        width: 100%;
-        margin: 5px 0;
-    }
-}
-
-/* Quiz Interface */
-#quiz-question-container {
-    background-color: var(--surface-color);
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-#question {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-}
-
-.options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-    margin: 24px 0;
-}
-
-.option {
-    padding: 16px 20px;
-    background-color: var(--surface-color);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: all var(--transition-speed) ease;
-    border-left: 4px solid transparent;
-    box-shadow: var(--shadow-sm);
-    position: relative;
-    overflow: hidden;
-}
-
-.option::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 3px;
-    width: 0;
-    background-color: var(--primary-light);
-    transition: width 0.3s ease;
-}
-
-.option:hover {
-    background-color: var(--surface-color-light);
-    box-shadow: var(--shadow-md);
-}
-
-.option:hover::after {
-    width: 100%;
-}
-
-.option.selected {
-    border-left: 4px solid var(--primary-color);
-    background-color: rgba(77, 127, 193, 0.15);
-}
-
-.option.correct {
-    background-color: rgba(34, 197, 94, 0.15);
-    border-left: 4px solid var(--correct-color);
-}
-
-.option.incorrect {
-    background-color: rgba(239, 68, 68, 0.15);
-    border-left: 4px solid var(--incorrect-color);
-}
-
-.option-feedback {
-    display: inline-block;
-    margin-left: 10px;
-    font-size: 1.2rem;
-}
-
-.quiz-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 0;
-}
-
-/* Quiz Results */
-#results-container {
-    background-color: var(--surface-color);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px 0;
-}
-
-#score-display {
-    font-size: 1.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#results-breakdown {
-    margin-top: 20px;
-}
-
-.result-item {
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 5px;
-}
-
-.result-item.correct {
-    background-color: rgba(76, 175, 80, 0.1);
-    border-left: 4px solid var(--correct-color);
-}
-
-.result-item.incorrect {
-    background-color: rgba(244, 67, 54, 0.1);
-    border-left: 4px solid var(--incorrect-color);
-}
-
-.back-btn {
-    display: block;
-    margin: 20px auto;
-}
-
-/* Disabled state for options */
-.option.disabled {
-    cursor: not-allowed;
-    opacity: 0.8;
-    pointer-events: none; /* This prevents further click events */
-}
-
-/* Optional: Add a visual indicator that options are locked */
-.options::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-}
-
-.option.disabled:not(.selected):not(.correct) {
-    border-left-color: var(--text-muted);
-    background-color: rgba(148, 163, 184, 0.05);
+    margin: 5px;
+    min-width: 90px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding: 10px;
+        padding: 15px;
     }
-
+    
     .flashcard {
         height: 250px;
+        width: 90%;
         margin: 20px auto;
     }
-
-    .controls {
-        flex-direction: column; /* Stack controls vertically on mobile */
-        align-items: center;
-        margin: 15px 0;
-    }
     
-    /* On mobile, let Previous/Next buttons share a row */
-    .nav-buttons {
-        display: flex;
+    /* Fix for mobile control buttons */
+    .controls, .flip-controls, .back-controls {
         width: 100%;
-        justify-content: center;
-        gap: 15px;
-    }
-    
-    .controls button {
-        width: 120px; /* Consistent button width on mobile */
-        margin: 5px 0;
-    }
-    
-    #flashcard-counter {
         margin: 10px 0;
+    }
+    
+    .nav-buttons {
+        width: 100%;
+        gap: 8px;
+    }
+    
+    /* Ensure all buttons have consistent styling */
+    .controls button, 
+    .flip-controls button, 
+    .back-controls button {
+        width: auto;
+        min-width: 100px;
+        padding: 10px 15px;
+        margin: 5px;
+        font-size: 0.95rem;
+    }
+    
+    /* Specific fix for the flip button centering */
+    #flip-button {
+        margin: 0 auto;
+        display: block;
+    }
+    
+    /* Ensure counter is properly centered */
+    #flashcard-counter {
+        display: inline-block;
+        text-align: center;
+        white-space: nowrap;
     }
     
     .options {
@@ -561,61 +351,5 @@ button[disabled]:hover {
 
     #mode-selection .buttons {
         flex-direction: column;
-    }
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    .flashcard {
-        height: 250px;
-        margin: 20px auto;
-    }
-    
-    /* Ensure all controls have consistent appearance */
-    .nav-buttons,
-    .flip-controls,
-    .back-controls {
-        width: 100%;
-    }
-    
-    /* Fix for buttons that might be too close on very small screens */
-    .nav-buttons {
-        flex-wrap: wrap;
-    }
-    
-    /* Counter might need adjustment on very small screens */
-    #flashcard-counter {
-        margin: 8px 0;
-        width: 100%;
-        order: -1; /* Place counter at the top */
-    }
-    
-    /* Ensure buttons maintain good tap target size on mobile */
-    .controls button,
-    .flip-controls button,
-    .back-controls button {
-        padding: 12px 20px;
-        margin: 6px;
-    }
-}
-
-/* Extra small screens require even more aggressive stacking */
-@media (max-width: 350px) {
-    .nav-buttons {
-        flex-direction: column;
-    }
-    
-    .nav-buttons button {
-        width: 100%;
-        margin: 5px 0;
-    }
-    
-    .flip-controls button,
-    .back-controls button {
-        width: 100%;
-        margin: 5px 0;
     }
 }
